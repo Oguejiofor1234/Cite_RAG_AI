@@ -1,40 +1,26 @@
-# 📄 Evidence-Linked Research Assistant & Precision PDF Reader
+# 📄 Cite_RAG_AI (Ogueji) — Agentic Document Intelligence & Precision Evidence Retrieval
 
-An enterprise-grade, multi-document AI research workspace built with **Streamlit**, **PyMuPDF**, **LangGraph**, **FAISS**, and **BM25**. The application delivers strictly grounded question-answering with verifiable inline source citations, bidirectional synchronization to an inline visual PDF evidence viewer, exact bounding-box highlights, and seamless switching between local (**Ollama**) and cloud (**OpenAI**) backends.
+[![CI Quality & Security Suite](https://github.com/miracle/pdf-rag-reader/actions/workflows/ci.yml/badge.svg)](https://github.com/miracle/pdf-rag-reader/actions/workflows/ci.yml)
+[![Docker Container Registry](https://github.com/miracle/pdf-rag-reader/actions/workflows/cd.yml/badge.svg)](https://github.com/miracle/pdf-rag-reader/actions/workflows/cd.yml)
+[![Python 3.11 | 3.12](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue.svg)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.41+-FF4B4B.svg)](https://streamlit.io)
+[![LangGraph](https://img.shields.io/badge/LangGraph-0.2+-blueviolet.svg)](https://langchain-ai.github.io/langgraph/)
+[![PyMuPDF](https://img.shields.io/badge/PyMuPDF-1.24+-red.svg)](https://pymupdf.readthedocs.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
----
+**Cite_RAG_AI** is an enterprise-grade, multi-document Retrieval-Augmented Generation (RAG) platform built with **Streamlit**, **LangGraph**, **FAISS**, **BM25**, and **PyMuPDF**. It enables researchers, analysts, and engineers to upload multi-page scientific papers and complex documents, ask natural-language questions, and receive strictly grounded answers with verifiable inline citations (`[1]`, `[2]`).
 
-## 🌟 Key Features
-
-- **Responsive Three-Panel Research Workspace**:
-  - **Left Panel — Document Library**: Batch PDF uploading with secure filename sanitization, document list and selection, indexing progress, document deletion, backend selection, and retrieval parameter tuning.
-  - **Center Panel — AI Research Assistant**: Conversational QA interface with per-document isolation, clickable source citations `[1]`, `[2]`, research follow-up prompts, and clear warnings when source evidence is insufficient.
-  - **Right Panel — Precision Evidence Viewer**: Dual-mode PDF viewer (High-Precision Evidence Image with yellow highlight overlays vs Interactive PDF Reader), page navigation, zoom controls, exact text snippet inspect box, and automatic page synchronization on citation click.
-- **PyMuPDF Precision Citation Engine**:
-  - Full chunk provenance retention: `doc_id`, 1-indexed `page_number`, `chunk_id`, `source_text`, `text_span` character offsets, and bounding box coordinates `[x0, y0, x1, y1]`.
-  - Multi-line and multi-rectangle highlight resolution on native PDF points.
-  - Graceful fallback: If exact text coordinates cannot be established, the viewer navigates to the cited page and displays the source snippet without drawing misleading highlight boxes.
-- **Strictly Grounded Answer Generation**:
-  - LangGraph query workflow enforces strict evidence grounding and inline bracketed citations (`[1]`, `[2]`).
-  - Validation node verifies citation numbers against retrieved evidence, safely strips hallucinated citations, and flags insufficient evidence when the context is inadequate.
-- **Hybrid Retrieval (BM25 + FAISS) with Reciprocal Rank Fusion**:
-  - Combines sparse keyword search (BM25Okapi) and dense vector search (FAISS) using Reciprocal Rank Fusion (RRF).
-  - Configurable top-k parameter (1 to 8 passages).
-  - Conversational query rewriting for follow-up questions.
-  - Strict document isolation by default with an explicit opt-in for multi-document cross-retrieval.
-- **Index Compatibility & Security**:
-  - Stores `index_meta.json` with `embedding_model_id` to prevent crashes when switching between models with different embedding dimensions.
-  - Sanitizes uploaded filenames to eliminate path traversal vulnerabilities (`../` and `..\`).
-  - Restricts PDF reads to allowed managed directories.
-  - Treats document text as untrusted data in LLM prompt templates to resist prompt injection.
+Clicking any citation navigates the integrated **Precision Evidence Viewer** to the exact cited page, draws high-contrast yellow/amber bounding boxes around the supporting text passages, and automatically synchronizes the view across multi-line snippets, rotated pages, and scientific equations.
 
 ---
 
-## 🏗️ Architecture & Workflows
+## 🏗️ System Architecture & Engineering Design
 
 <p align="center">
   <img src="docs/images/Cite_RAG_AI_Architecture_Diagram.png" alt="Cite_RAG_AI System Architecture Diagram" width="100%" />
 </p>
+
+### Pipeline Execution Flow (LangGraph Orchestration)
 
 ```mermaid
 flowchart TD
@@ -65,10 +51,10 @@ flowchart TD
 
 ## 📸 Live Application & Model Inference Showcase
 
-Cite_RAG_AI supports both cloud-scale reasoning and 100% offline local inference with bidirectional evidence synchronization:
+Cite_RAG_AI features full support for both cloud-augmented reasoning and 100% offline, privacy-first local inference:
 
 ### ☁️ Cloud Model API Inference (OpenAI GPT-4o & text-embedding-3-small)
-Multi-document research workspace operating with OpenAI cloud inference, showing conversational question answering, interactive citation pills, and real-time synchronized PDF evidence highlighting:
+The multi-document research assistant operating with OpenAI cloud inference, demonstrating grounded conversational QA, clickable citation pills, and real-time synchronized PDF evidence highlighting:
 
 <p align="center">
   <img src="docs/images/Cloud_model_API.png" alt="Cite_RAG_AI Cloud Model API Inference" width="100%" />
@@ -80,6 +66,32 @@ Fully offline on-premise document intelligence powered by Ollama, enabling air-g
 <p align="center">
   <img src="docs/images/Ollama_local_model_testing.png" alt="Cite_RAG_AI Ollama Local Model Testing" width="100%" />
 </p>
+
+---
+
+## 🌟 Key Features
+
+- **Responsive Three-Panel Research Workspace**:
+  - **Left Panel — Document Library**: Batch PDF uploading with secure filename sanitization, document list and selection, indexing progress, document deletion, backend selection, and retrieval parameter tuning.
+  - **Center Panel — AI Research Assistant**: Conversational QA interface with per-document isolation, clickable source citations `[1]`, `[2]`, research follow-up prompts, and clear warnings when source evidence is insufficient.
+  - **Right Panel — Precision Evidence Viewer**: Dual-mode PDF viewer (High-Precision Evidence Image with yellow highlight overlays vs Interactive PDF Reader), page navigation, zoom controls, exact text snippet inspect box, and automatic page synchronization on citation click.
+- **PyMuPDF Precision Citation Engine**:
+  - Full chunk provenance retention: `doc_id`, 1-indexed `page_number`, `chunk_id`, `source_text`, `text_span` character offsets, and bounding box coordinates `[x0, y0, x1, y1]`.
+  - Multi-line and multi-rectangle highlight resolution on native PDF points.
+  - Graceful fallback: If exact text coordinates cannot be established, the viewer navigates to the cited page and displays the source snippet without drawing misleading highlight boxes.
+- **Strictly Grounded Answer Generation**:
+  - LangGraph query workflow enforces strict evidence grounding and inline bracketed citations (`[1]`, `[2]`).
+  - Validation node verifies citation numbers against retrieved evidence, safely strips hallucinated citations, and flags insufficient evidence when the context is inadequate.
+- **Hybrid Retrieval (BM25 + FAISS) with Reciprocal Rank Fusion**:
+  - Combines sparse keyword search (BM25Okapi) and dense vector search (FAISS) using Reciprocal Rank Fusion (RRF).
+  - Configurable top-k parameter (1 to 8 passages).
+  - Conversational query rewriting for follow-up questions.
+  - Strict document isolation by default with an explicit opt-in for multi-document cross-retrieval.
+- **Index Compatibility & Security**:
+  - Stores `index_meta.json` with `embedding_model_id` to prevent crashes when switching between models with different embedding dimensions.
+  - Sanitizes uploaded filenames to eliminate path traversal vulnerabilities (`../` and `..\`).
+  - Restricts PDF reads to allowed managed directories.
+  - Treats document text as untrusted data in LLM prompt templates to resist prompt injection.
 
 ---
 
@@ -305,4 +317,3 @@ The test suite contains **45 comprehensive unit, integration, and UI tests** wit
 ## 📄 License
 
 This project is licensed under the MIT License.
-
