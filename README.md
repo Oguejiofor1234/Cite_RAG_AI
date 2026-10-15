@@ -32,6 +32,10 @@ An enterprise-grade, multi-document AI research workspace built with **Streamlit
 
 ## 🏗️ Architecture & Workflows
 
+<p align="center">
+  <img src="docs/images/Cite_RAG_AI_Architecture_Diagram.png" alt="Cite_RAG_AI System Architecture Diagram" width="100%" />
+</p>
+
 ```mermaid
 flowchart TD
     subgraph Ingestion["1. Precision Ingestion Pipeline (LangGraph)"]
@@ -59,12 +63,50 @@ flowchart TD
 
 ---
 
+## 📸 Live Application & Model Inference Showcase
+
+Cite_RAG_AI supports both cloud-scale reasoning and 100% offline local inference with bidirectional evidence synchronization:
+
+### ☁️ Cloud Model API Inference (OpenAI GPT-4o & text-embedding-3-small)
+Multi-document research workspace operating with OpenAI cloud inference, showing conversational question answering, interactive citation pills, and real-time synchronized PDF evidence highlighting:
+
+<p align="center">
+  <img src="docs/images/Cloud_model_API.png" alt="Cite_RAG_AI Cloud Model API Inference" width="100%" />
+</p>
+
+### 🖥️ Local Model Inference (Ollama Llama 3.1 & Nomic Embed)
+Fully offline on-premise document intelligence powered by Ollama, enabling air-gapped document analysis with zero cloud data transmission, hybrid BM25 + FAISS retrieval, and yellow bounding-box evidence inspection:
+
+<p align="center">
+  <img src="docs/images/Ollama_local_model_testing.png" alt="Cite_RAG_AI Ollama Local Model Testing" width="100%" />
+</p>
+
+---
+
 ## 📁 Repository Structure
 
 ```plaintext
 pdf-rag-reader/
+├── .github/
+│   └── workflows/
+│       ├── ci.yml             # CI: Linting (Ruff), Security (Bandit/pip-audit), Pytest matrix, UI test
+│       └── cd.yml             # CD: Docker buildx, GHCR publish, Trivy container security audit
+├── docs/
+│   └── images/                # Architecture diagrams and application screenshots
+│       ├── Cite_RAG_AI_Architecture_Diagram.png
+│       ├── Cloud_model_API.png
+│       └── Ollama_local_model_testing.png
 ├── app_multi.py               # Main 3-panel multi-document research assistant
 ├── app_single.py              # Lightweight single-document viewer mode
+├── Dockerfile                 # Multi-stage production container image (non-root appuser)
+├── docker-compose.yml         # Full-stack composition with companion Ollama service
+├── pyproject.toml             # Unified tool configuration (Ruff, Bandit, Coverage)
+├── pytest.ini                 # Pytest configuration and test markers
+├── requirements.txt           # Production runtime dependencies
+├── requirements-dev.txt       # Development, testing, and linting dependencies
+├── .pre-commit-config.yaml    # Git pre-commit hooks
+├── scripts/
+│   └── ci_check.sh            # Local one-click CI verification script
 ├── models/                    # Model backend configurations
 │   ├── __init__.py            # Model factories & embedding model ID resolution
 │   ├── ollama_config.py       # Local Ollama LLM (llama3.1:8b) & embeddings (nomic-embed-text)
@@ -82,21 +124,24 @@ pdf-rag-reader/
 │   ├── pdf_loader.py          # PyMuPDF page loader with 1-indexed numbering
 │   ├── text_splitter.py       # Provenance-preserving chunk splitter
 │   ├── vectorstore.py         # FAISS vector store with index metadata & compatibility checks
+│   ├── pdf_viewer_component.py# Interactive PDF.js / canvas viewer component
 │   └── security.py            # Upload filename sanitization & path traversal defense
-├── tests/                     # Automated test suite (20 tests)
+├── tests/                     # Automated test suite (45 tests)
 │   ├── conftest.py            # Test fixtures & deterministic mocks
 │   ├── test_pdf_loader.py     # Ingestion, 1-indexed numbering, error handling
 │   ├── test_citation_engine.py# Coordinates, multi-page citations, highlight rendering
 │   ├── test_isolation_and_retrieval.py # Strict isolation, cross-doc mode, hybrid BM25
 │   ├── test_grounded_qa.py    # Grounded answer validation & insufficient evidence
 │   ├── test_index_compatibility_and_security.py # Model compatibility & upload security
-│   └── test_app_state_and_smoke.py # UI state synchronization & Streamlit smoke test
+│   ├── test_app_state_and_smoke.py # UI state synchronization & Streamlit smoke test
+│   ├── test_layout_and_responsiveness.py # Multi-viewport responsiveness & overflow guards
+│   ├── test_precision_evidence_highlighting.py # Multiline & scientific formula bounding boxes
+│   └── test_theme_consistency.py # WCAG AA contrast ratios & live Light/Dark theme checks
 ├── data/                      # File storage (created dynamically)
 │   ├── multi/
 │   │   ├── uploads/           # Uploaded PDFs ({doc_id}_{filename})
 │   │   └── vectorstores/      # Isolated indexes ({doc_id}_index)
 │   └── single/
-├── pytest.ini                 # Pytest configuration
 └── README.md                  # Project documentation
 ```
 
