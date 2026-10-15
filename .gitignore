@@ -1,0 +1,39 @@
+# Python Bytecode and Caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Virtual Environments
+venv/
+env/
+.env
+.venv/
+ENV/
+
+# Streamlit Local Secrets & Cache
+.streamlit/secrets.toml
+.streamlit/cache/
+
+# Uploaded Files & FAISS Persistent Indexes (Security & Privacy Protection)
+data/multi/uploads/*
+!data/multi/uploads/.gitkeep
+data/multi/vectorstores/*
+!data/multi/vectorstores/.gitkeep
+data/multi/sessions/
+data/single/uploads/*
+!data/single/uploads/.gitkeep
+data/single/vectorstore/*
+!data/single/vectorstore/.gitkeep
+*.pdf
+
+# Operating System & Temporary Files
+.DS_Store
+Thumbs.db
+scratch*
+*.log
+*.tmp

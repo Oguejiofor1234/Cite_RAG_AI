@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pdf-rag-reader"
+version = "1.0.0"
+description = "Cite_RAG_AI — Agentic Document Intelligence & Precision Evidence Retrieval"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Ogueji" }]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+exclude = [
+    ".git",
+    "venv",
+    ".venv",
+    "__pycache__",
+    "data",
+    "screenshots",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = [
+    "E501",  # line length handled by formatter
+    "W291",  # trailing whitespace
+    "W293",  # whitespace on blank line
+    "E741",  # ambiguous variable name
+    "F841",  # local variable assigned but never used
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", "venv", ".venv"]
+skips = ["B101", "B110"]
+
+
+[tool.coverage.run]
+source = ["models", "rag", "utils", "app_multi"]
+omit = [
+    "tests/*",
+    "venv/*",
+    ".venv/*",
+    "app_single.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+    "except Exception:",
+]
+show_missing = true

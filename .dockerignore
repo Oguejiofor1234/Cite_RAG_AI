@@ -1,0 +1,42 @@
+# Git and GitHub
+.git
+.gitignore
+.github
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Python Bytecode and Caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.log
+
+# Sensitive environment variables
+.env
+.env.*
+*.pem
+*.key
+
+# Local Data and Temporary Outputs
+data/
+data/*
+screenshots/
+screenshots/*
+scratch/
+
+# Test Suites and Development Tooling
+tests/
+scripts/
+requirements-dev.txt
+.pre-commit-config.yaml
+Dockerfile
+docker-compose*.yml
